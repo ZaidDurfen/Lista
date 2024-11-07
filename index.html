@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Programación</title>
+    <script src="./js/vue3.js"></script> <!-- Asegúrate de que Vue esté bien enlazado -->
+    <link rel="stylesheet" href="./estilo/estilos.css">
+</head>
+<body>
+    <section id="surveyApp">
+        <h1>Encuesta de Programación</h1>
+
+        <form @submit.prevent="displayResults">
+            <div class="question">
+                <label>¿Te gusta programar?</label>
+                <!-- Vinculamos con v-model a programmingInterest -->
+                <input type="radio" name="programmingInterest" v-model="programmingInterest" value="Sí" required> Sí
+                <input type="radio" name="programmingInterest" v-model="programmingInterest" value="No"> No
+            </div>
+
+            <div class="question">
+                <label>¿Cuántos años llevas programando?</label>
+                <input type="number" v-model="yearsProgramming" min="0" required>
+            </div>
+
+            <div class="question" v-if="programmingInterest === 'Sí'">
+                <label>¿Por qué te gusta programar?</label>
+                <textarea v-model="reasonForProgramming"></textarea>
+            </div>
+
+            <div class="question">
+                <label>¿Cuántos lenguajes de programación conoces?</label>
+                <input type="text" v-model="currentLanguage" placeholder="Escribe un lenguaje">
+                <button @click.prevent="addLanguage" type="button">Agregar</button>
+                <ul>
+                    <li v-for="language in languagesList" :key="language">{{ language }}</li>
+                </ul>
+            </div>
+
+            <button type="submit">Mostrar resultados</button>
+        </form>
+
+        <!-- Resultados que se mostrarán al hacer submit -->
+        <div v-if="showResults">
+            <h3>Resultados</h3>
+            <p>¿Te gusta programar?: <strong>{{ programmingInterest }}</strong></p>
+            <p>Años programando: <strong>{{ yearsProgramming }}</strong></p>
+            <p>Motivo: <strong>{{ reasonForProgramming }}</strong></p>
+            <p>Lenguajes conocidos:</p>
+            <ul>
+                <li v-for="language in languagesList" :key="language">{{ language }}</li>
+            </ul>
+        </div>
+    </section>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>
